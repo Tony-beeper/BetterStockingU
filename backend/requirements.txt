@@ -4,3 +4,5 @@ pymongo[srv]
 python-dotenv
 cohere
 requests
+spacy
+pandas

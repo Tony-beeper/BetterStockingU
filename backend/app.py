@@ -8,6 +8,13 @@ import cohere
 import training
 from flask import request
 import requests
+import spacy
+import pandas as pd
+import itertools
+import json
+
+# Load English tokenizer, tagger, parser and NER
+nlp = spacy.load("en_core_web_trf")
 
 load_dotenv()
 COHERE = os.getenv('COHERE')
@@ -124,6 +131,17 @@ def search_by_user(username):
     query = "lang%3Aen%20from%3A{}".format(username)
     text_arr = get_twitter_data(query)
     return {"text_arr": text_arr}
+
+
+@app.route("/api/wordfrequency", methods=['GET'])
+def find_frequency():
+    text_arr = request.json['text_arr']
+    text = ' '.join(text_arr)
+    doc = nlp(text)
+    org_arr = [t.text for t in doc.ents if t.label_ == "ORG"]
+    df = pd.Index(org_arr)
+    re = df.value_counts().to_dict()
+    return {"data": json.dumps(dict(itertools.islice(re.items(), 10)))}
 
 
 @app.route("/test", methods=['GET'])
