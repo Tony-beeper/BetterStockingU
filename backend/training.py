@@ -1,4 +1,7 @@
 from cohere.classify import Example
+
+import csv
+
 examples = [
     Example("Apple officially fined $19 million for not including chargers with iPhones", "negative"),
     Example("More #iOS16 bugs. It's getting ridiculous now", "negative"),
@@ -46,3 +49,21 @@ examples = [
     
 
 ]
+
+with open('./csv/Tweets.csv') as file:
+    # python -m flask run
+    reader = csv.DictReader(file)
+
+    for row in reader:
+        # row is of type dict, with the following keys
+        # textID,text,selected_text,sentiment
+        text = row['text']
+        sentiment = row['sentiment']
+
+        if sentiment == "positive" or sentiment == "negative":
+            examples.append(Example(text, sentiment))
+
+
+
+
+
