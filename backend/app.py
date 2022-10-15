@@ -24,34 +24,53 @@ CORS(app)
 print(db)
 
 
+def get_rating(company, posts):
+    collection = db.stockingu
+    company_rating = collection.find_one({'data.company': company})
+    if company_rating:
+        print("cache hit")
+        company_rating['_id'] = str(company_rating['_id'])
+        return company_rating
+    else:
+        classifications = co.classify(
+            model='medium',
+            inputs=posts,
+            examples=training.examples
+        )
+        output = []
+        average = 0
+        for cl in classifications.classifications:
+            print(cl)
+            title = cl.input
+            sentiment = cl.prediction
+            confidence_p = cl.labels['positive'].confidence
+            confidence_n = cl.labels['negative'].confidence
+            confidence = 0
+            if sentiment == "positive":
+                confidence = confidence_p
+            elif sentiment == "negative":
+                confidence = confidence_n*-1
+
+            output.append({
+                'title': title,
+                'sentiment': sentiment,
+                'confidence': confidence
+            })
+        average += confidence
+
+        result = {'data': {'company': company, 'rating': average /
+                  len(classifications.classifications)}}
+        collection.insert_one(result)
+        result['_id'] = str(result['_id'])
+        return {'data': output}
+
+
 @app.route("/api", methods=['POST'])
 def api():
     if request.method == 'POST':
-        data = request.json['data']
-        print({"you entered ": data})
-        collection = db.stockingu
-        result = collection.find_one({'data.title': data})
-        print(result)
-        # convert OjectID to string
-        if result:
-            print("cache hit")
-            result['_id'] = str(result['_id'])
-            return result
-        else:
-            classifications = co.classify(
-                model='medium',
-                inputs=[data],
-                examples=training.examples
-            )
-            print(classifications)
-            output = {}
-            for cl in classifications.classifications:
-                output = {
-                    'title': cl.input,
-                    'sentiment': cl.prediction,
-                    'confidence': cl.confidence[0].confidence
-                }
-            collection.insert_one({'data': output})
-            return output
+        posts = request.json['posts']
+        company = request.json['company']
+        print({"you entered ": posts})
+        return get_rating(company, posts)
 
     return {"hello": "world"}
