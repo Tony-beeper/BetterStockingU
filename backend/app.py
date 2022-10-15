@@ -13,6 +13,7 @@ COHERE = os.getenv('COHERE')
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 TWITTER_BRARER = os.getenv('bearer_token')
+MAX_RESULTS = 10
 print(
     f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.nuben.mongodb.net/?retryWrites=true&w=majority')
 client = MongoClient(
@@ -66,31 +67,49 @@ def get_rating(company, posts):
         return {'data': output}
 
 
-@app.route("/api", methods=['POST'])
-def api():
-    if request.method == 'POST':
-        posts = request.json['posts']
-        company = request.json['company']
-        print({"you entered ": posts})
-        return get_rating(company, posts)
+# @app.route("/api", methods=['POST'])
+# def api():
+#     if request.method == 'POST':
+#         posts = request.json['posts']
+#         company = request.json['company']
+#         print({"you entered ": posts})
+#         return get_rating(company, posts)
 
-    return {"hello": "world"}
+#     return {"hello": "world"}
 
 
-@app.route("api/twiiter/<query>")
-def search_twitter(query):
+def get_twitter_data(query, next_token):
     # api-endpoint
-    URL = "https://api.twitter.com/2/tweets/search/recent?query=lang%3Aen%20Apple&max_results=10"
+    URL = "https://api.twitter.com/2/tweets/search/recent?query=lang%3Aen%20{}&max_results={}".format(
+        query, MAX_RESULTS)
+    nest_token_str = ("&next_token=" + next_token) if next_token else ""
+    URL = URL + nest_token_str
 
     headers = {"Authorization": TWITTER_BRARER}
-
-    # # defining a params dict for the parameters to be sent to the API
-    # PARAMS = {'address':location}
 
     # sending get request and saving the response as response object
     r = requests.get(url=URL, headers=headers)
 
     # extracting data in json format
-    data = r.json()
+    return r.json()
 
-    print(data)
+
+@app.route("/api/twitter/search/<query>", methods=['GET'])
+def search_twitter(query):
+    round = 0
+    next_token = ""
+    text_arr = []
+    while (round < 5):
+        result = get_twitter_data(query=query, next_token=next_token)
+        for tweet in result['data']:
+            text_arr.append(tweet['text'])
+        next_token = result['meta']['next_token'] if (
+            result['meta']['next_token']) else ""
+        round = round + 1
+
+    return {"text_arr": text_arr}
+
+
+@app.route("/test", methods=['GET'])
+def test():
+    return {"text_arr": "a"}
