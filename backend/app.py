@@ -78,9 +78,9 @@ def get_rating(company, posts):
 #     return {"hello": "world"}
 
 
-def get_twitter_data(query, next_token):
+def get_twitter_page_data(query, next_token):
     # api-endpoint
-    URL = "https://api.twitter.com/2/tweets/search/recent?query=lang%3Aen%20{}&max_results={}".format(
+    URL = "https://api.twitter.com/2/tweets/search/recent?query={}&max_results={}".format(
         query, MAX_RESULTS)
     nest_token_str = ("&next_token=" + next_token) if next_token else ""
     URL = URL + nest_token_str
@@ -94,19 +94,33 @@ def get_twitter_data(query, next_token):
     return r.json()
 
 
-@app.route("/api/twitter/search/<query>", methods=['GET'])
-def search_twitter(query):
+def get_twitter_data(query):
     round = 0
     next_token = ""
     text_arr = []
     while (round < 5):
-        result = get_twitter_data(query=query, next_token=next_token)
+        result = get_twitter_page_data(query=query, next_token=next_token)
+        if (not 'data' in result):
+            break
         for tweet in result['data']:
             text_arr.append(tweet['text'])
-        next_token = result['meta']['next_token'] if (
-            result['meta']['next_token']) else ""
+        if ('next_token' in result['meta']):
+            next_token = result['meta']['next_token']
         round = round + 1
+    return text_arr
 
+
+@app.route("/api/twitter/search/<company>", methods=['GET'])
+def search_twitter(company):
+    query = "lang%3Aen%20%23{}".format(company)
+    text_arr = get_twitter_data(query)
+    return {"text_arr": text_arr}
+
+
+@app.route("/api/twitter/user/<username>", methods=['GET'])
+def search_by_user(username):
+    query = "lang%3Aen%20from%3A{}".format(username)
+    text_arr = get_twitter_data(query)
     return {"text_arr": text_arr}
 
 
