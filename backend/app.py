@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask
 from pymongo import MongoClient
 from flask_cors import CORS
@@ -59,9 +60,10 @@ def get_rating(company, posts):
                 'confidence': confidence
             })
         average += confidence
-
-        result = {'data': {'company': company, 'rating': average /
-                  len(classifications.classifications)}}
+        rating = average / len(classifications.classifications)
+        timestamp = datetime.datetime.utcnow()
+        result = {'data': {'company': company,
+                           'rating': rating, 'timestamp': timestamp}}
         collection.insert_one(result)
         result['_id'] = str(result['_id'])
         return {'data': output}

@@ -3,70 +3,56 @@ import Header from "./components/header/header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SentimentChart from "./components/sentimentChart/sentimentChart";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 function App() {
-  const [chart, setChart] = useState(<div></div>);
-  const [header, setHeader] = useState(<div></div>);
-  const pos = [
-    "DraftKings Inc. stock rises Wednesday, outperforms market",
-    "More Room For Growth In Pioneer Energy Stock?",
-    "After Dismal Performance Last Month, L'Oreal Stock Looks Set To Rebound",
-    "The stock market is close to finding its bottom as corporate share buybacks surge to record highs, JPMorgan says",
-    "GameStop Unveils Crypto and NFT Wallet, Shares up 3%",
-  ];
-  const neg = [
-    "Bear Market Has Only Just Begun",
-    "How Do You Stay Confident in a Market Crash?",
-    "Here's 1 of the Biggest Problems With Airbnb Stock",
-    "Should You Buy Stocks With An Impending Bear Market And Possible Recession?",
-    "Costco Q3 Earnings Preview: Don't Fall With It Any Longer (NASDAQ:COST)",
-  ];
-
-  let pos_p = pos.map((p) => {
-    return <p>{p}</p>;
-  });
-
-  let neg_p = neg.map((n) => {
-    return <p>{n}</p>;
-  });
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: process.env.REACT_APP_REST_API + "/api/reddit",
-    }).then((res) => {
-      axios({
-        method: "get",
-        url: process.env.REACT_APP_REST_API + "/api/news",
-      }).then((news) => {
-        console.log();
-        if (news.data.data[0].chart_data[0] < 0) {
-          setHeader(<Header sentiment="negative" />);
+    const filterData = (query, data) => {
+        if (!query) {
+            return data;
         } else {
-          setHeader(<Header sentiment="positive" />);
+            return data.filter((d) =>
+                d.toLowerCase().includes(query.toLowerCase())
+            );
         }
-        setChart(<SentimentChart reddit={[1, 2, 3]} news={[1, 2, 3]} />);
-      });
-    });
-  }, []);
+    };
+    const data = [
+        "Paris",
+        "London",
+        "New York",
+        "Tokyo",
+        "Berlin",
+        "Buenos Aires",
+        "Cairo",
+        "Canberra",
+        "Rio de Janeiro",
+        "Dublin",
+    ];
+    const [searchQuery, setSearchQuery] = useState("");
+    const dataFiltered = filterData(searchQuery, data);
 
-  return (
-    <div className="my_app">
-      {header}
-      {/* {chart} */}
-      <SentimentChart reddit={[1, 2, 3]} news={[1, 2, 3]} />
-      <div className="pos_neg">
-        <div className="pos_list">
-          <p className="pos_title">Positive Articles</p>
-          {pos_p}
+    useEffect(() => {}, []);
+
+    return (
+        <div className="my_app">
+            <SearchBar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+            />
+            <div style={{ padding: 3 }}>
+                {dataFiltered.map((d, index) => (
+                    <div
+                        className="search-bar-text"
+                        key={index}
+                        onClick={(e) => {
+                            setSearchQuery(d);
+                        }}
+                    >
+                        {d}
+                    </div>
+                ))}
+            </div>
         </div>
-        <div className="neg_list">
-          <p className="neg_title">Negative Articles</p>
-          {neg_p}
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default App;
