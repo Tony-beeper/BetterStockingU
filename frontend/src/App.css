@@ -1,5 +1,6 @@
 .my_app {
     margin-bottom: 5em;
+    padding-top: 1em;
 }
 
 .pos_neg {
@@ -25,4 +26,17 @@
 
 .neg_title {
     color: #FF2320;
+}
+
+.search-bar-text {
+
+    padding: 0.1em;
+    justify-content: normal;
+    font-size: 0.8em;
+    color: blue;
+    margin: 0.5em;
+    width: 250px;
+    border-color: green;
+    border-width: 10px;
+
 }
