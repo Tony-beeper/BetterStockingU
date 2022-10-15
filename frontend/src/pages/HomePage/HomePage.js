@@ -1,6 +1,5 @@
 import "./HomePage.css";
-import { Container } from "@material-ui/core";
-import PageHeading from "../../components/Headings/PageHeading";
+import Container from '@mui/material/Container';
 import { doughData } from "../../components/sentimentChart/sentimentChart";
 import { Doughnut } from "react-chartjs-2";
 // import "./App.css";
@@ -37,7 +36,6 @@ const HomePage = () => {
 
   return (
     <Container maxWidth="xl">
-      <PageHeading>BetterStockingU</PageHeading>
       <div className="my_app">
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 

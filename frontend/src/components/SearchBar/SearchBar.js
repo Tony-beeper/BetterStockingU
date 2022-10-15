@@ -1,26 +1,15 @@
-import { IconButton } from "@material-ui/core";
-// import { SearchIcon } from "@mui-ui/core/Search";
-import { TextField } from "@material-ui/core";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
-const SearchBar = ({ setSearchQuery, searchQuery }) => {
+const SearchBar = ({options }) => {
   return (
-    <form>
-      <TextField
-        id="search-bar"
-        className="text"
-        onInput={(e) => {
-          setSearchQuery(e.target.value);
-        }}
-        label="Enter a city name"
-        variant="outlined"
-        placeholder="Search..."
-        size="small"
-        value={searchQuery}
-      />
-      <IconButton type="submit" aria-label="search">
-        <div style={{ fill: "blue" }} />
-      </IconButton>
-    </form>
+    <Autocomplete
+  disablePortal
+  id="combo-box-demo"
+  options={options}
+  sx={{ width: 300 }}
+  renderInput={(params) => <TextField {...params} label="Movie" />}
+/>
   );
 };
 export default SearchBar;
