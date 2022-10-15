@@ -14,7 +14,8 @@ examples = [
     Example("Bob, Amazon is a blood money business. If you take it serious, Your life will never remain the same", "negative"),
     Example("Dear @amazon, Stop advertising the sold out pink Spidey hoodie to me. Your targeted advertising is spot on. My daughter would love it. But if it’s sold out every time I click, you’re just making me angry.", "negative"),
     Example("Why the fuck is Rogers wifi always fucking down @RogersHelps", "negative"),
-    Example("HEY @Rogers BRING MY WIFI BACK I WAS IN THE MIDDLE OF A GAME??????", "negative"),
+    Example(
+        "HEY @Rogers BRING MY WIFI BACK I WAS IN THE MIDDLE OF A GAME??????", "negative"),
     Example("@Rogers MY WIFI IS DOWN WTF IS GOING ON YOU JUST COSTED MY RECORD IN FIFA YOU DISGRACE", "negative"),
     Example("The message for @RBC was loud and clear: Continuing on this climate-destroying path that violates Indigenous rights, will cost them their reputation and bottom line.", "negative"),
     Example("ok so i just ordered my xbox one power supply (microsoft sucks ass and i hate them i will never own a single one of there products again)", "negative"),
@@ -46,24 +47,19 @@ examples = [
     Example("The CHEAP BUT AWESOME tent is back in stock and on our Walmart registry!! These things are small and mighty, perfect to give out at City Hall, which has become a centralized spot for displaced folks this week! Thanks to everyone out there.", "positive"),
     Example("#SaitamaWolfPack iOS users that don’t want to wait for App Store updates, check out the 8” Galaxy TAB A7Lite at Walmart. I just bought it for $116, after tax.  It’s WiFi only. But it’ll only be used at home for SaitaPro. Cheap and will do the job. #Saitama #SaitaPro #UseSaitaPro", "positive"),
     Example("Microsoft Good work- life- balance and well paid", "positive"),
-    
+
 
 ]
 
-with open('./csv/Tweets.csv') as file:
-    # python -m flask run
-    reader = csv.DictReader(file)
+# with open('./csv/Tweets.csv') as file:
+#     # python -m flask run
+#     reader = csv.DictReader(file)
 
-    for row in reader:
-        # row is of type dict, with the following keys
-        # textID,text,selected_text,sentiment
-        text = row['text']
-        sentiment = row['sentiment']
+#     for row in reader:
+#         # row is of type dict, with the following keys
+#         # textID,text,selected_text,sentiment
+#         text = row['text']
+#         sentiment = row['sentiment']
 
-        if sentiment == "positive" or sentiment == "negative":
-            examples.append(Example(text, sentiment))
-
-
-
-
-
+#         if sentiment == "positive" or sentiment == "negative":
+#             examples.append(Example(text, sentiment))
