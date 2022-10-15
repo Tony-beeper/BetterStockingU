@@ -36,9 +36,8 @@ def get_rating(company, posts):
     #     return company_rating
     # else:
     classifications = co.classify(
-        model='medium',
+        model='finance-sentiment',
         inputs=posts,
-        examples=training.getExamples()
     )
     output = []
     average = 0
@@ -46,12 +45,12 @@ def get_rating(company, posts):
         print(cl)
         title = cl.input
         sentiment = cl.prediction
-        confidence_p = cl.labels['positive'].confidence
-        confidence_n = cl.labels['negative'].confidence
+        confidence_p = cl.labels['POSITIVE'].confidence
+        confidence_n = cl.labels['NEGATIVE'].confidence
         confidence = 0
-        if sentiment == "positive":
+        if sentiment == "POSITIVE":
             confidence = confidence_p
-        elif sentiment == "negative":
+        elif sentiment == "NEGATIVE":
             confidence = confidence_n*-1
 
         output.append({
@@ -69,15 +68,15 @@ def get_rating(company, posts):
     return {'data': output}
 
 
-# @app.route("/api", methods=['POST'])
-# def api():
-#     if request.method == 'POST':
-#         posts = request.json['posts']
-#         company = request.json['company']
-#         print({"you entered ": posts})
-#         return get_rating(company, posts)
+@app.route("/api", methods=['POST'])
+def api():
+    if request.method == 'POST':
+        posts = request.json['posts']
+        company = request.json['company']
+        print({"you entered ": posts})
+        return get_rating(company, posts)
 
-#     return {"hello": "world"}
+    return {"hello": "world"}
 
 
 def get_twitter_page_data(query, next_token):
