@@ -1,0 +1,47 @@
+.homepage {
+  display: flex;
+  /* justify-content: center; */
+  justify-content: space-between;
+  /* flex-direction: row; */
+
+  flex-direction: row;
+  /* align-items: center; */
+}
+
+.penguinImage {
+  display: block;
+  margin: 0 auto;
+  width: 40%;
+}
+.search-bar-text {
+  padding: 0.1em;
+  justify-content: normal;
+  font-size: 0.8em;
+  color: blue;
+  margin: 0.5em;
+  width: 250px;
+  border-color: green;
+  border-width: 10px;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+}
+
+.backgroundImage {
+  display: block;
+  margin: 25 auto;
+  width: 40% !important;
+  height: 40% !important;
+}
+
+.welcomeText {
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+}
+
+.credits {
+  margin-top: 1em;
+}
