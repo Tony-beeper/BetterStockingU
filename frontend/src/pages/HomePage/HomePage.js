@@ -1,9 +1,6 @@
-import { Home } from "@material-ui/icons";
 import "./HomePage.css";
-import { Container, Grid, Button, Typography } from "@material-ui/core";
-import CodeBookIconWhite from "../../media/codebookiconwhite.png";
+import { Container } from "@material-ui/core";
 import PageHeading from "../../components/Headings/PageHeading";
-import CodebookLink from "../../components/CodebookLink/CodebookLink";
 import { doughData } from "../../components/sentimentChart/sentimentChart";
 import { Doughnut } from "react-chartjs-2";
 // import "./App.css";
