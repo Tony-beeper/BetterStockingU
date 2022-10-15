@@ -1,42 +1,30 @@
 .my_app {
-    margin-bottom: 5em;
-    padding-top: 1em;
+  margin-bottom: 5em;
+  padding-top: 1em;
 }
 
 .pos_neg {
-    display: flex;
-    margin-top: 3em;
-    font-size: medium;
-    justify-content: space-between;
+  display: flex;
+  margin-top: 3em;
+  font-size: medium;
+  justify-content: space-between;
 }
 
-.pos_list, .neg_list {
-    width: 40%;
-    justify-content: center;
-
+.pos_list,
+.neg_list {
+  width: 40%;
+  justify-content: center;
 }
 
-.pos_title, .neg_title {
-    font-size: large
+.pos_title,
+.neg_title {
+  font-size: large;
 }
 
 .pos_title {
-    color: #4E937A;
+  color: #4e937a;
 }
 
 .neg_title {
-    color: #FF2320;
-}
-
-.search-bar-text {
-
-    padding: 0.1em;
-    justify-content: normal;
-    font-size: 0.8em;
-    color: blue;
-    margin: 0.5em;
-    width: 250px;
-    border-color: green;
-    border-width: 10px;
-
+  color: #ff2320;
 }
