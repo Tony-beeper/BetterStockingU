@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useState } from "react";
 
 import HomePage from "./pages/HomePage/HomePage";
+import Navbar from "./components/Navbar/Navbar";
 
 
 
@@ -18,6 +19,7 @@ function App() {
 
   return (
         <Router>
+          <Navbar/>
           <ToastContainer theme="colored" />
           <Routes>
 

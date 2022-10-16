@@ -9,6 +9,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.9",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
