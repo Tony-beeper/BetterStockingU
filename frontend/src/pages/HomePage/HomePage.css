@@ -5,6 +5,7 @@
   /* flex-direction: row; */
 
   flex-direction: row;
+  height: 100vh;
   /* align-items: center; */
 }
 
@@ -44,4 +45,13 @@
 
 .credits {
   margin-top: 1em;
+}
+.search-section{
+  display: flex;
+  flex-direction: column;
+}
+
+.graph-section{
+  display: flex;
+  flex-direction: column;
 }

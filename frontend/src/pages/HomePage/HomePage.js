@@ -41,23 +41,23 @@ const HomePage = () => {
 
   return (
     <Container maxWidth="xl">
-      <div className="my_app">
-        <SearchBar options={data} setSearchQuery={setSearchQuery} />
+        
 
         
-      </div>
       <div className="homepage">
-        {/* <img src={CodeBookIconWhite} className="backgroundImage" alt="icon" /> */}
+        <div className="search-section">
+        <SearchBar options={data} setSearchQuery={setSearchQuery} />
+        </div>
+        <div className="graph-section">
         <Doughnut
           options={options}
           data={doughData}
           className="backgroundImage"
         />
         <Bar options={barOptions} data={barData} className="backgroundImage" />
-        {/* 
-        <div className="credits">
-          <CodebookLink href="/credits">Credits</CodebookLink>
-        </div> */}
+        </div>
+        
+
       </div>
     </Container>
   );
