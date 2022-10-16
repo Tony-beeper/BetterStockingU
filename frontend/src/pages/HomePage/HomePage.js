@@ -1,11 +1,12 @@
 import "./HomePage.css";
 import Container from "@mui/material/Container";
 import { doughData } from "../../components/sentimentChart/doughnutChart";
+import { doughData2 } from "../../components/sentimentChart/doughnutChart";
+
 import { options } from "../../components/sentimentChart/doughnutChart";
 
 import { Doughnut } from "react-chartjs-2";
 import { Bar } from "react-chartjs-2";
-
 // import "./App.css";
 // import Header from "./components/header/header";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -15,6 +16,8 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import { barData, barOptions } from "../../components/sentimentChart/barChart";
 import PostList from "../../components/PostList/PostList";
 import MyDoughChart from "../../components/MyDoughChart/MyDoughChart";
+import realDough from "../../components/MyDoughChart/MyRealDoughChart"
+
 const HomePage = () => {
   const filterData = (query, data) => {
     if (!query) {
@@ -39,6 +42,7 @@ const HomePage = () => {
   const [pieChartData, setPieChartData] = useState(doughData);
   const [posts, setPosts] = useState([]);
   const [topicIndex, setTopicIndex] = useState(0);
+  const [realDoughData, setRealDoughData] = useState(doughData2);
   // const memoizedChart = useMemo(MyDoughChart, [pieChartData]);
   const colors = [
     "rgba(255, 99, 132, 1)",
@@ -70,9 +74,29 @@ const HomePage = () => {
             data.cohere.average.data.rating.toString().substring(0, 4) +
             ")"
         );
+        // pieData.labels.push(topic);
+        // const secondPie = JSON.parse(JSON.stringify({...doughData}));
+        const secondPie = {...doughData2};
+
+        // secondPie.datasets[0].data = 
+        const abc = JSON.parse(data.frequency);
+        secondPie.datasets[0].backgroundColor.push(colors[topicIndex]);
+        secondPie.datasets[0].borderColor.push(colors[topicIndex]);
+
+        Object.keys(abc).forEach(function (key) {
+          secondPie.labels.push(key);
+          secondPie.datasets[0].data.push(abc[key]);
+        });
+
+        // for(const i=0; i < 3;i++){
+        //   secondPie.labels.push(abc[]);
+
+        // }
+        console.log("abc",abc);
         setPieChartData(pieData);
         setPosts(data.cohere.data.slice(0, 3));
         let newTopicIndex = topicIndex;
+        setRealDoughData(secondPie)
         if (topicIndex < 3) {
           newTopicIndex = topicIndex + 1;
         }
@@ -96,10 +120,10 @@ const HomePage = () => {
           {/* <div className="graph-item"> */}
           {/* {memoizedChart} */}
           <p>1-2 is positive, 0-1 is negative</p>
+          {/* <MyDoughChart data={pieChartData} /> */}
           <MyDoughChart data={pieChartData} />
-          {/* </div> */}
-          {/* <div className="graph-item"> */}
-          <Bar options={barOptions} data={barData} className="barChart" />
+
+          <MyDoughChart data={realDoughData} />
           {/* </div> */}
         </div>
       </div>

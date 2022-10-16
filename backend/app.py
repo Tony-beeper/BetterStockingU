@@ -136,6 +136,7 @@ def search_twitter(company):
 
     all_stopwords.add('rt')
     all_stopwords.add('#')
+    all_stopwords.add('amp')
     all_stopwords.add(unquote(company.lower()))
 
     text = ' '.join(text_arr).lower().replace('#', '')
