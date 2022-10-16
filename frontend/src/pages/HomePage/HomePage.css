@@ -50,6 +50,8 @@
   display: flex;
   flex-direction: column;
   flex:1;
+  padding: 2em 1em;
+
 }
 
 .graph-section{
