@@ -124,7 +124,22 @@ def search_twitter(company):
     # company = unquote(company)
     query = "lang%3Aen%20{}".format(company)
     text_arr = get_twitter_data(query)
-    return get_rating(unquote(company), text_arr)
+
+    text_arr = list(dict.fromkeys(text_arr))
+    all_stopwords = nlp.Defaults.stop_words
+
+    all_stopwords.add('rt')
+    all_stopwords.add('#')
+    all_stopwords.add(unquote(company.lower()))
+
+    text = ' '.join(text_arr).lower().replace('#', '')
+    doc = nlp(text)
+    org_arr = [
+        chunk.text for chunk in doc.noun_chunks if chunk.text not in all_stopwords]
+    # org_arr = [t.text for t in doc.ents if t.label_ == "PRODUCT"]
+    df = pd.Index(org_arr)
+    re = df.value_counts().to_dict()
+    return {"cohere": get_rating(unquote(company), text_arr), "frequency": json.dumps(dict(itertools.islice(re.items(), 3)))}
 
 
 @app.route("/api/twitter/user/<username>", methods=['GET'])
@@ -151,7 +166,7 @@ def find_frequency(ignore_word):
     # org_arr = [t.text for t in doc.ents if t.label_ == "PRODUCT"]
     df = pd.Index(org_arr)
     re = df.value_counts().to_dict()
-    return {"data": json.dumps(dict(itertools.islice(re.items(), 10)))}
+    return {"data": json.dumps(dict(itertools.islice(re.items(), 3)))}
 
 
 @app.route("/test", methods=['GET'])
