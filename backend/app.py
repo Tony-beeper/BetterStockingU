@@ -49,6 +49,7 @@ def get_rating(company, posts):
     )
     output = []
     average = 0
+    num_posts = 0
     for cl in classifications.classifications:
         print(cl)
         title = cl.input
@@ -58,16 +59,18 @@ def get_rating(company, posts):
         confidence = 0
         if sentiment == "POSITIVE":
             confidence = confidence_p+1
+            num_posts+=1
         elif sentiment == "NEGATIVE":
-            confidence = confidence_n
+            confidence = 1+ (confidence_n*-1)
+            num_posts+=1
 
         output.append({
             'title': title,
             'sentiment': sentiment,
             'confidence': confidence
         })
-    average += confidence
-    rating = average / len(classifications.classifications)
+        average += confidence
+    rating = average / num_posts
     timestamp = datetime.datetime.utcnow()
     result = {'data': {'company': company,
                        'rating': rating, 'timestamp': timestamp}}
