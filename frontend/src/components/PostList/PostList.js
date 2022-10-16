@@ -9,28 +9,43 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
+export default function PostList(props) {
+  const getIcon =(rating)=>{
+    switch(rating){
+      case "POSITIVE":
+        return <SentimentVerySatisfiedIcon/>
+      case "NEGATIVE":
+        return <SentimentVeryDissatisfiedIcon/>
+      case "NEUTRAL":
+        return <SentimentNeutralIcon/>
+      default:
+        return null
+    }
 
-export default function PostList() {
+  }
+  React.useEffect(()=>{
+    console.log(props.posts)
+  })
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <nav aria-label="main mailbox folders">
-        <List>
-          <ListItem disablePadding>
+      <List>
+        {props.posts.map(post =>{
+          return(
+            <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                <SentimentVeryDissatisfiedIcon />
+                {getIcon(post.sentiment)}
               </ListItemIcon>
-              <ListItemText primary="Apple recieves $14 million fine" />
+              <ListItemText primary={post.title} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SentimentVerySatisfiedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Apple iphone 14 record sales" />
-            </ListItemButton>
-          </ListItem>
+          )
+
+        })}
+        
+          
         </List>
       </nav>
       

@@ -9,7 +9,7 @@ import { Bar } from "react-chartjs-2";
 // import "./App.css";
 // import Header from "./components/header/header";
 import { useEffect, useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 // import SentimentChart from "./components/sentimentChart/sentimentChart";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { barData, barOptions } from "../../components/sentimentChart/barChart";
@@ -35,9 +35,20 @@ const HomePage = () => {
     "Dublin",
   ];
   const [searchQuery, setSearchQuery] = useState("");
-  const dataFiltered = filterData(searchQuery, data);
+  const [pieChartData, setPieChartData] = useState([]);
+  const [posts,setPosts] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/api/twitter/search/apple").then(res =>{
+      const data= res.data
+      console.log(data)
+      setPieChartData([...pieChartData,data.cohere.average.data.rating])
+      setPosts(data.cohere.data.slice(0,3))
+    })
+
+  }, []);
+  const pieData = {...doughData}
+  doughData.datasets[0].data = pieChartData
 
   return (
     <Container maxWidth="xl">
@@ -45,13 +56,13 @@ const HomePage = () => {
         <div className="search-section">
           <SearchBar options={data} setSearchQuery={setSearchQuery} />
           {/* <SearchBar options={data} setSearchQuery={setSearchQuery} /> */}
-          <PostList />
+          <PostList posts={posts} />
         </div>
         <div className="graph-section">
           {/* <div className="graph-item"> */}
           <Doughnut
             options={options}
-            data={doughData}
+            data={pieData}
             className="doughnutChart"
           />
           {/* </div> */}
