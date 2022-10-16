@@ -1,14 +1,18 @@
 import "./HomePage.css";
-import { Container } from "@material-ui/core";
-import PageHeading from "../../components/Headings/PageHeading";
+import Container from '@mui/material/Container';
 import { doughData } from "../../components/sentimentChart/sentimentChart";
+import { options } from "../../components/sentimentChart/sentimentChart";
+
 import { Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+
 // import "./App.css";
 // import Header from "./components/header/header";
 import { useEffect, useState } from "react";
 // import axios from "axios";
 // import SentimentChart from "./components/sentimentChart/sentimentChart";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import { barData, barOptions } from "../../components/sentimentChart/barChart";
 
 const HomePage = () => {
   const filterData = (query, data) => {
@@ -37,32 +41,23 @@ const HomePage = () => {
 
   return (
     <Container maxWidth="xl">
-      <PageHeading>BetterStockingU</PageHeading>
-      <div className="my_app">
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        
 
-        <div style={{ padding: 3 }}>
-          {dataFiltered.map((d, index) => (
-            <div
-              className="search-bar-text"
-              key={index}
-              onClick={(e) => {
-                setSearchQuery(d);
-              }}
-            >
-              {d}
-            </div>
-          ))}
-        </div>
-      </div>
+        
       <div className="homepage">
-        {/* <img src={CodeBookIconWhite} className="backgroundImage" alt="icon" /> */}
-        <Doughnut data={doughData} className="backgroundImage" />
-        <Doughnut data={doughData} className="backgroundImage" />
-        {/* 
-        <div className="credits">
-          <CodebookLink href="/credits">Credits</CodebookLink>
-        </div> */}
+        <div className="search-section">
+        <SearchBar options={data} setSearchQuery={setSearchQuery} />
+        </div>
+        <div className="graph-section">
+        <Doughnut
+          options={options}
+          data={doughData}
+          className="backgroundImage"
+        />
+        <Bar options={barOptions} data={barData} className="backgroundImage" />
+        </div>
+        
+
       </div>
     </Container>
   );

@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(
   ArcElement,
@@ -21,6 +20,25 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+const defaultFont = {
+  family: "Georgia",
+  size: 16,
+  color: "black",
+};
+const colorCode = "black";
+
+export const options = {
+  plugins: {
+    legend: {
+      labels: {
+        // This more specific font property overrides the global property
+        font: {
+          size: 69,
+        },
+      },
+    },
+  },
+};
 
 export const doughData = {
   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
