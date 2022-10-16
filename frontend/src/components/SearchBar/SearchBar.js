@@ -7,12 +7,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./SearchBar.css";
 
-const SearchBar = ({ options }) => {
+const SearchBar = ({ options, search }) => {
   const [topic, setTopic] = useState("");
   const [topics, setTopics] = useState([]);
 
   useEffect(async () => {
     console.log(topics);
+    const last = topics.length - 1 >= 0 ? topics.length - 1 : 0;
+    if (topics[last]) search(topics[last]);
   }, [topics]);
 
   return (
