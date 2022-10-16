@@ -10,12 +10,7 @@ import Navbar from "./components/Navbar/Navbar";
 
 
 function App() {
-  const [context, setContext] = useState({
-    username: document.cookie.replace(
-      /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
-      "$1"
-    ),
-  });
+  
 
   return (
         <Router>

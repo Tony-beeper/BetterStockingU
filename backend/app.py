@@ -22,7 +22,7 @@ COHERE = os.getenv('COHERE')
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 TWITTER_BRARER = os.getenv('bearer_token')
-MAX_RESULTS = 10
+MAX_RESULTS = 5
 print(
     f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.nuben.mongodb.net/?retryWrites=true&w=majority')
 client = MongoClient(
