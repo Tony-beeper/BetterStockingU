@@ -20,7 +20,7 @@ ChartJS.register(
 );
 const defaultFont = {
   family: "Georgia",
-  size: 35,
+  size: 12,
   color: "black",
 };
 const colorCode = "black";

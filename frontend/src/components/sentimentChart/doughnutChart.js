@@ -33,7 +33,7 @@ export const options = {
       labels: {
         // This more specific font property overrides the global property
         font: {
-          size: 69,
+          size: 36,
         },
       },
     },
