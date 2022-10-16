@@ -49,9 +49,11 @@
 .search-section{
   display: flex;
   flex-direction: column;
+  flex:1;
 }
 
 .graph-section{
   display: flex;
   flex-direction: column;
+  flex:1;
 }
