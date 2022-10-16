@@ -22,7 +22,7 @@ COHERE = os.getenv('COHERE')
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 TWITTER_BRARER = os.getenv('bearer_token')
-MAX_RESULTS = 5
+MAX_RESULTS = 10
 print(
     f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.nuben.mongodb.net/?retryWrites=true&w=majority')
 client = MongoClient(
@@ -59,10 +59,10 @@ def get_rating(company, posts):
         confidence = 0
         if sentiment == "POSITIVE":
             confidence = confidence_p+1
-            num_posts+=1
+            num_posts += 1
         elif sentiment == "NEGATIVE":
-            confidence = 1+ (confidence_n*-1)
-            num_posts+=1
+            confidence = 1 + (confidence_n*-1)
+            num_posts += 1
 
         output.append({
             'title': title,
@@ -76,7 +76,7 @@ def get_rating(company, posts):
                        'rating': rating, 'timestamp': timestamp}}
     collection.insert_one(result)
     result['_id'] = str(result['_id'])
-    return {'data': output, 'average':result}
+    return {'data': output, 'average': result}
 
 
 @app.route("/api", methods=['POST'])
@@ -126,9 +126,12 @@ def get_twitter_data(query):
 def search_twitter(company):
     # company = unquote(company)
     query = "lang%3Aen%20{}".format(company)
+    print(query)
     text_arr = get_twitter_data(query)
 
     text_arr = list(dict.fromkeys(text_arr))
+    if (not len(text_arr)):
+        return 'bad request!', 400
     all_stopwords = nlp.Defaults.stop_words
 
     all_stopwords.add('rt')
