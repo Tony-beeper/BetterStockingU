@@ -57,9 +57,9 @@ def get_rating(company, posts):
         confidence_n = cl.labels['NEGATIVE'].confidence
         confidence = 0
         if sentiment == "POSITIVE":
-            confidence = confidence_p
+            confidence = confidence_p+1
         elif sentiment == "NEGATIVE":
-            confidence = confidence_n*-1
+            confidence = confidence_n
 
         output.append({
             'title': title,
@@ -73,7 +73,7 @@ def get_rating(company, posts):
                        'rating': rating, 'timestamp': timestamp}}
     collection.insert_one(result)
     result['_id'] = str(result['_id'])
-    return {'data': output}
+    return {'data': output, 'average':result}
 
 
 @app.route("/api", methods=['POST'])
