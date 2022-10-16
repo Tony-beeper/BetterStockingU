@@ -74,6 +74,8 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  flex: 1;
+  padding: 2em 1em;
 }
 
 .graph-section {

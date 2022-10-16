@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 // import SentimentChart from "./components/sentimentChart/sentimentChart";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { barData, barOptions } from "../../components/sentimentChart/barChart";
-
+import PostList from "../../components/PostList/PostList";
 const HomePage = () => {
   const filterData = (query, data) => {
     if (!query) {
@@ -44,6 +44,8 @@ const HomePage = () => {
       <div className="homepage">
         <div className="search-section">
           <SearchBar options={data} setSearchQuery={setSearchQuery} />
+          {/* <SearchBar options={data} setSearchQuery={setSearchQuery} /> */}
+          <PostList />
         </div>
         <div className="graph-section">
           {/* <div className="graph-item"> */}

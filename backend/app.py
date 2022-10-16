@@ -12,16 +12,17 @@ import spacy
 import pandas as pd
 import itertools
 import json
+from urllib.parse import unquote
 
 # Load English tokenizer, tagger, parser and NER
-nlp = spacy.load("en_core_web_trf")
+nlp = spacy.load("en_core_web_lg")
 
 load_dotenv()
 COHERE = os.getenv('COHERE')
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 TWITTER_BRARER = os.getenv('bearer_token')
-MAX_RESULTS = 10
+MAX_RESULTS = 100
 print(
     f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.nuben.mongodb.net/?retryWrites=true&w=majority')
 client = MongoClient(
@@ -106,7 +107,7 @@ def get_twitter_data(query):
     round = 0
     next_token = ""
     text_arr = []
-    while (round < 5):
+    while (round < 20):
         result = get_twitter_page_data(query=query, next_token=next_token)
         if (not 'data' in result):
             break
@@ -120,7 +121,8 @@ def get_twitter_data(query):
 
 @app.route("/api/twitter/search/<company>", methods=['GET'])
 def search_twitter(company):
-    query = "lang%3Aen%20%23{}".format(company)
+    # company = unquote(company)
+    query = "lang%3Aen%20{}".format(company)
     text_arr = get_twitter_data(query)
     return {"text_arr": text_arr}
 
@@ -132,12 +134,21 @@ def search_by_user(username):
     return {"text_arr": text_arr}
 
 
-@app.route("/api/wordfrequency", methods=['GET'])
-def find_frequency():
+@app.route("/api/wordfrequency/<ignore_word>", methods=['GET'])
+def find_frequency(ignore_word):
     text_arr = request.json['text_arr']
-    text = ' '.join(text_arr)
+    text_arr = list(dict.fromkeys(text_arr))
+    all_stopwords = nlp.Defaults.stop_words
+
+    all_stopwords.add('rt')
+    all_stopwords.add('#')
+    all_stopwords.add(unquote(ignore_word.lower()))
+
+    text = ' '.join(text_arr).lower().replace('#', '')
     doc = nlp(text)
-    org_arr = [t.text for t in doc.ents if t.label_ == "ORG"]
+    org_arr = [
+        chunk.text for chunk in doc.noun_chunks if chunk.text not in all_stopwords]
+    # org_arr = [t.text for t in doc.ents if t.label_ == "PRODUCT"]
     df = pd.Index(org_arr)
     re = df.value_counts().to_dict()
     return {"data": json.dumps(dict(itertools.islice(re.items(), 10)))}
