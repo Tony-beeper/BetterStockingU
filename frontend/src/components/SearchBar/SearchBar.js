@@ -8,7 +8,7 @@ const SearchBar = ({options }) => {
   id="combo-box-demo"
   options={options}
   sx={{ width: 300 }}
-  renderInput={(params) => <TextField {...params} label="Movie" />}
+  renderInput={(params) => <TextField {...params} label="Twitter Username" />}
 />
   );
 };

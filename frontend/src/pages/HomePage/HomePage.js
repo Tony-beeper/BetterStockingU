@@ -42,21 +42,9 @@ const HomePage = () => {
   return (
     <Container maxWidth="xl">
       <div className="my_app">
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <SearchBar options={data} setSearchQuery={setSearchQuery} />
 
-        <div style={{ padding: 3 }}>
-          {dataFiltered.map((d, index) => (
-            <div
-              className="search-bar-text"
-              key={index}
-              onClick={(e) => {
-                setSearchQuery(d);
-              }}
-            >
-              {d}
-            </div>
-          ))}
-        </div>
+        
       </div>
       <div className="homepage">
         {/* <img src={CodeBookIconWhite} className="backgroundImage" alt="icon" /> */}
