@@ -64,7 +64,12 @@ const HomePage = () => {
         ];
         pieData.datasets[0].backgroundColor.push(colors[topicIndex]);
         pieData.datasets[0].borderColor.push(colors[topicIndex]);
-        pieData.labels.push(topic);
+        pieData.labels.push(
+          topic +
+            " (" +
+            data.cohere.average.data.rating.toString().substring(0, 4) +
+            ")"
+        );
         setPieChartData(pieData);
         setPosts(data.cohere.data.slice(0, 3));
         let newTopicIndex = topicIndex;
