@@ -22,7 +22,7 @@ COHERE = os.getenv('COHERE')
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASS = os.getenv('MONGO_PASS')
 TWITTER_BRARER = os.getenv('bearer_token')
-MAX_RESULTS = 100
+MAX_RESULTS = 10
 print(
     f'mongodb+srv://{MONGO_USER}:{MONGO_PASS}@cluster0.nuben.mongodb.net/?retryWrites=true&w=majority')
 client = MongoClient(
@@ -107,7 +107,7 @@ def get_twitter_data(query):
     round = 0
     next_token = ""
     text_arr = []
-    while (round < 20):
+    while (round < 10):
         result = get_twitter_page_data(query=query, next_token=next_token)
         if (not 'data' in result):
             break
@@ -124,7 +124,7 @@ def search_twitter(company):
     # company = unquote(company)
     query = "lang%3Aen%20{}".format(company)
     text_arr = get_twitter_data(query)
-    return {"text_arr": text_arr}
+    return get_rating(unquote(company), text_arr)
 
 
 @app.route("/api/twitter/user/<username>", methods=['GET'])
