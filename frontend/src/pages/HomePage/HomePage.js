@@ -90,6 +90,7 @@ const HomePage = () => {
         <div className="graph-section">
           {/* <div className="graph-item"> */}
           {/* {memoizedChart} */}
+          <p>1-2 is positive, 0-1 is negative</p>
           <MyDoughChart data={pieChartData} />
           {/* </div> */}
           {/* <div className="graph-item"> */}
